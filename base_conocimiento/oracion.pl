@@ -17,7 +17,6 @@ tokenizar_oracion(Oracion, Palabras) :-
 % Predicado para identificar la categoría gramatical de cada palabra
 categoria_gramatical(Palabra, Categoria) :-
     adjetivo(_, _, _, Palabra), Categoria = adjetivo;
-    % adjetivo(Palabra, calificativo, _, _), Categoria = adjetivo;
     adverbio(_,Palabra), Categoria = adverbio;
     articulo(_, _, _, Palabra), Categoria = articulo;
     conjuncion(Palabra, _), Categoria = conjuncion;
