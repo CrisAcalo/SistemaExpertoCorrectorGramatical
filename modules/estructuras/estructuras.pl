@@ -1,3 +1,8 @@
+:- module(estructuras, [estructura/2]).
+:- encoding(utf8).
+%Estructura
+% estructura(Tipo, Elementos).
+
 % Oraciones simples (Sujeto + Verbo + Complemento)
 estructura(oracion_simple, [sujeto, verbo, complemento]).
 estructura(oracion_simple, [sujeto, verbo]). % Cuando no hay complemento explícito.

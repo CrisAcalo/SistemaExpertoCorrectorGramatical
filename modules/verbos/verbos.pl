@@ -1,3 +1,8 @@
+:- module(verbos, [verbo/6]).
+:- encoding(utf8).
+%Estructura
+% verbo(Tipo, Tiempo, Modo, Persona, Numero, Palabra).
+
 % Verbos regulares en infinitivo
 verbo(infinitivo, 'hablar').
 verbo(infinitivo, 'comer').
