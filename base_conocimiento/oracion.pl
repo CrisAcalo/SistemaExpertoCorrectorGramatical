@@ -1,3 +1,4 @@
+% Modulo oracion actualizado para validar correctamente la concordancia entre el sujeto y el verbo
 :- module(oracion, [oracion/1, oracion_valida/1]).
 
 :- use_module('../modules/adjetivos/adjetivos.pl').
@@ -10,82 +11,87 @@
 :- use_module('../modules/sustantivos/sustantivos.pl').
 :- use_module('../modules/verbos/verbos.pl').
 
-% Predicado que tokeniza una oración
-tokenizar_oracion(Oracion, Palabras) :-
-    split_string(Oracion, " \t\n", [], Palabras).
+% Análisis inicial del texto
+tokenizar_oracion(Oracion, Tokens) :-
+    split_string(Oracion, " ", " ", Tokens).
 
-% Predicado para identificar la categoría gramatical de cada palabra
-categoria_gramatical(Palabra, Categoria) :-
-    adjetivo(_, _, _, Palabra), Categoria = adjetivo;
-    adverbio(_, Palabra), Categoria = adverbio;
-    articulo(_, _, _, Palabra), Categoria = articulo;
-    conjuncion(Palabra, _), Categoria = conjuncion;
-    sustantivo(Palabra, _, _, _), Categoria = sustantivo;
-    verbo(_, _, _, _, _, Palabra), Categoria = verbo;
-    preposicion(_, Palabra), Categoria = preposicion;
-    pronombre(Palabra, _, _, _), Categoria = pronombre;
-    Categoria = desconocido.
+categorizar_palabras([], []).
+categorizar_palabras([Palabra|Resto], [Categoria|Categorias]) :-
+    clasificar_palabra(Palabra, Categoria),
+    categorizar_palabras(Resto, Categorias).
 
-% Predicado que verifica la concordancia entre sustantivos y adjetivos
-verificar_concordancia_sustantivo_adjetivo(Sustantivo, Adjetivo) :-
-    sustantivo(Sustantivo, GeneroS, NumeroS, _),
-    adjetivo(Adjetivo, calificativo, GeneroA, NumeroA),
-    GeneroS == GeneroA,
-    NumeroS == NumeroA.
+clasificar_palabra(Palabra, sustantivo) :- sustantivo(Palabra, _, _, _).
+clasificar_palabra(Palabra, verbo(Persona, Numero)) :- verbo(_, _, _, Persona, Numero, Palabra).
+clasificar_palabra(Palabra, pronombre(Persona, Numero)) :- pronombre(Palabra, _, Persona, Numero).
+clasificar_palabra(Palabra, adjetivo) :- adjetivo(_, _, _, Palabra).
+clasificar_palabra(Palabra, articulo) :- articulo(_, _, _, Palabra).
+clasificar_palabra(Palabra, preposicion) :- preposicion(_, Palabra).
+clasificar_palabra(Palabra, conjuncion) :- conjuncion(Palabra, _).
+clasificar_palabra(Palabra, adverbio) :- adverbio(_, Palabra).
+clasificar_palabra(Palabra, desconocido).
 
-% Predicado que verifica la concordancia entre sujeto y verbo
-verificar_concordancia_sujeto_verbo(Sujeto, Verbo) :-
-    sustantivo(Sujeto, _, _, _),
-    verbo(_, _, _, PersonaV, NumeroV, Verbo),
-    persona_verbo(Sujeto, PersonaV),
-    numero_verbo(Sujeto, NumeroV).
-
-% Predicado que verifica el orden y estructura sintáctica
-verificar_estructura_sintactica(Oracion, EstructuraValida) :-
-    split_string(Oracion, " ", " \t\n", Palabras),
-    estructuras(sujeto, [Verbo|_]),
-    member(Verbo, Palabras),
-    length(Palabras, Longitud),
-    EstructuraValida is Longitud > 1.
-
-% Reglas para verificar el uso de tiempos verbales y preposiciones
-verificar_tiempos_verbales_y_preposiciones(Oracion) :-
-    split_string(Oracion, " ", " \t\n", Palabras),
-    member(Verbo, Palabras),
-    verbo(_, _, _, _, _, Verbo),
-    preposicion(_, Verbo).
-
-% Predicado que verifica errores comunes en las palabras
-verificar_errores_comunes(Palabras) :-
-    member(Palabra, Palabras),
-    \+ member(Palabra, [Palabra | _]),
-    writeln('Error: Palabra mal escrita o desconocida: '),
-    writeln(Palabra).
-
-% Regla principal que valida una oración
+% Validación de oraciones
 oracion_valida(Oracion) :-
-    tokenizar_oracion(Oracion, Palabras),
-    maplist(categoria_gramatical, Palabras, Categorias),
-    validar_concordancia(Categorias),
-    verificar_estructura_sintactica(Oracion, true),
-    verificar_tiempos_verbales_y_preposiciones(Oracion),
-    verificar_errores_comunes(Palabras),
-    !. % Cortamos el procesamiento si todo es válido.
+    tokenizar_oracion(Oracion, Tokens),
+    categorizar_palabras(Tokens, Categorias),
+    estructura_correcta(Categorias),
+    concordancia_gramatical(Categorias).
 
-% Predicado para validar concordancias gramaticales generales
-validar_concordancia([sustantivo(Sujeto, _, _, _), verbo(_, _, _, _, _, Verbo), complemento(Objeto, _, _)|_]) :-
-    verificar_concordancia_sujeto_verbo(Sujeto, Verbo),
-    verificar_concordancia_sustantivo_adjetivo(Sujeto, Adjetivo),
-    !.
+estructura_correcta(Categorias) :-
+    estructura(oracion_simple, Estructura),
+    sublista(Estructura, Categorias).
 
-% Main predicate
+estructura_correcta(Categorias) :-
+    estructura(oracion_compuesta_coordinada, Estructura),
+    sublista(Estructura, Categorias).
+
+estructura_correcta(Categorias) :-
+    estructura(oracion_compuesta_subordinada, Estructura),
+    sublista(Estructura, Categorias).
+
+% Verificación de concordancia gramatical
+concordancia_gramatical([]).
+concordancia_gramatical([pronombre(Persona, Numero)|Resto]) :-
+    buscar_verbo_concordante(Persona, Numero, Resto).
+concordancia_gramatical([_|Resto]) :-
+    concordancia_gramatical(Resto).
+
+buscar_verbo_concordante(_, _, []).
+buscar_verbo_concordante(Persona, Numero, [verbo(Persona, Numero)|_]).
+buscar_verbo_concordante(Persona, Numero, [verbo(_, _)|_]) :-
+    write('Error: El verbo no concuerda con el sujeto en persona o número.'), nl, fail.
+buscar_verbo_concordante(Persona, Numero, [_|Resto]) :-
+    buscar_verbo_concordante(Persona, Numero, Resto).
+
+% Reglas auxiliares
+sublista([], _).
+sublista([X|XS], [X|YS]) :-
+    sublista(XS, YS).
+sublista(XS, [_|YS]) :-
+    sublista(XS, YS).
+
+% Correcciones y sugerencias
 oracion(Oracion) :-
-    oracion_valida(Oracion),
-    format('La oración es válida: ~w~n', [Oracion]).
-oracion(Oracion) :-
-    format('Errores detectados en la oración: ~w~n', [Oracion]).
-<<<<<<< HEAD
-=======
+    tokenizar_oracion(Oracion, Tokens),
+    categorizar_palabras(Tokens, Categorias),
+    (   oracion_valida(Oracion)
+    ->  write('La oración es gramaticalmente correcta.'), nl
+    ;   write('La oración no tiene errores:'), nl,
+        sugerir_correcciones(Tokens, Categorias)
+    ).
 
+sugerir_correcciones([], []).
+sugerir_correcciones([Palabra|Resto], [desconocido|Categorias]) :-
+    write(Palabra), write(': palabra desconocida. Verifique el uso.'), nl,
+    sugerir_correcciones(Resto, Categorias).
+sugerir_correcciones([Palabra|Resto], [Categoria|Categorias]) :-
+    Categoria \= desconocido,
+    write('Analizando palabra: '), write(Palabra), write(' -> '), write(Categoria), nl,
+    sugerir_error_especifico(Palabra, Categoria),
+    sugerir_correcciones(Resto, Categorias).
 
->>>>>>> 78e83cc8ce291e7266843d09d796759d8357934c
+sugerir_error_especifico(Palabra, pronombre(_, _)) :-
+    write(Palabra), write(': Verifique que el verbo concuerde en persona y número.'), nl.
+sugerir_error_especifico(Palabra, verbo(_, _)) :-
+    write(Palabra), write(': Verifique la concordancia con el sujeto.'), nl.
+sugerir_error_especifico(_, _).
