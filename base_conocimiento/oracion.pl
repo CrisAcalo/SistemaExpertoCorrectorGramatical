@@ -84,3 +84,101 @@ oracion(Oracion) :-
     format('La oración es válida: ~w~n', [Oracion]).
 oracion(Oracion) :-
     format('Errores detectados en la oración: ~w~n', [Oracion]).
+
+
+% Raíces de los verbos regulares
+raiz(Verbo, Raiz) :-
+    sub_atom(Verbo, 0, _, 2, Raiz).  % Obtiene la raíz eliminando las últimas dos letras (-ar, -er, -ir).
+
+% Conjugación para verbos terminados en -ar
+conjugar(Verbo, yo, Conjugado) :-
+    sub_atom(Verbo, _, 2, 0, ar),
+    raiz(Verbo, Raiz),
+    atom_concat(Raiz, 'o', Conjugado).
+
+conjugar(Verbo, tu, Conjugado) :-
+    sub_atom(Verbo, _, 2, 0, ar),
+    raiz(Verbo, Raiz),
+    atom_concat(Raiz, 'as', Conjugado).
+
+conjugar(Verbo, el, Conjugado) :-
+    sub_atom(Verbo, _, 2, 0, ar),
+    raiz(Verbo, Raiz),
+    atom_concat(Raiz, 'a', Conjugado).
+
+conjugar(Verbo, nosotros, Conjugado) :-
+    sub_atom(Verbo, _, 2, 0, ar),
+    raiz(Verbo, Raiz),
+    atom_concat(Raiz, 'amos', Conjugado).
+
+conjugar(Verbo, ustedes, Conjugado) :-
+    sub_atom(Verbo, _, 2, 0, ar),
+    raiz(Verbo, Raiz),
+    atom_concat(Raiz, 'an', Conjugado).
+
+conjugar(Verbo, ellos, Conjugado) :-
+    sub_atom(Verbo, _, 2, 0, ar),
+    raiz(Verbo, Raiz),
+    atom_concat(Raiz, 'an', Conjugado).
+
+% Conjugación para verbos terminados en -er
+conjugar(Verbo, yo, Conjugado) :-
+    sub_atom(Verbo, _, 2, 0, er),
+    raiz(Verbo, Raiz),
+    atom_concat(Raiz, 'o', Conjugado).
+
+conjugar(Verbo, tu, Conjugado) :-
+    sub_atom(Verbo, _, 2, 0, er),
+    raiz(Verbo, Raiz),
+    atom_concat(Raiz, 'es', Conjugado).
+
+conjugar(Verbo, el, Conjugado) :-
+    sub_atom(Verbo, _, 2, 0, er),
+    raiz(Verbo, Raiz),
+    atom_concat(Raiz, 'e', Conjugado).
+
+conjugar(Verbo, nosotros, Conjugado) :-
+    sub_atom(Verbo, _, 2, 0, er),
+    raiz(Verbo, Raiz),
+    atom_concat(Raiz, 'emos', Conjugado).
+
+conjugar(Verbo, ustedes, Conjugado) :-
+    sub_atom(Verbo, _, 2, 0, er),
+    raiz(Verbo, Raiz),
+    atom_concat(Raiz, 'en', Conjugado).
+
+conjugar(Verbo, ellos, Conjugado) :-
+    sub_atom(Verbo, _, 2, 0, er),
+    raiz(Verbo, Raiz),
+    atom_concat(Raiz, 'en', Conjugado).
+
+% Conjugación para verbos terminados en -ir
+conjugar(Verbo, yo, Conjugado) :-
+    sub_atom(Verbo, _, 2, 0, ir),
+    raiz(Verbo, Raiz),
+    atom_concat(Raiz, 'o', Conjugado).
+
+conjugar(Verbo, tu, Conjugado) :-
+    sub_atom(Verbo, _, 2, 0, ir),
+    raiz(Verbo, Raiz),
+    atom_concat(Raiz, 'es', Conjugado).
+
+conjugar(Verbo, el, Conjugado) :-
+    sub_atom(Verbo, _, 2, 0, ir),
+    raiz(Verbo, Raiz),
+    atom_concat(Raiz, 'e', Conjugado).
+
+conjugar(Verbo, nosotros, Conjugado) :-
+    sub_atom(Verbo, _, 2, 0, ir),
+    raiz(Verbo, Raiz),
+    atom_concat(Raiz, 'imos', Conjugado).
+
+conjugar(Verbo, ustedes, Conjugado) :-
+    sub_atom(Verbo, _, 2, 0, ir),
+    raiz(Verbo, Raiz),
+    atom_concat(Raiz, 'en', Conjugado).
+
+conjugar(Verbo, ellos, Conjugado) :-
+    sub_atom(Verbo, _, 2, 0, ir),
+    raiz(Verbo, Raiz),
+    atom_concat(Raiz, 'en', Conjugado).
