@@ -84,3 +84,8 @@ oracion(Oracion) :-
     format('La oración es válida: ~w~n', [Oracion]).
 oracion(Oracion) :-
     format('Errores detectados en la oración: ~w~n', [Oracion]).
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 78e83cc8ce291e7266843d09d796759d8357934c
