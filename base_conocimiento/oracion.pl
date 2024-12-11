@@ -17,12 +17,12 @@ tokenizar_oracion(Oracion, Palabras) :-
 % Predicado para identificar la categoría gramatical de cada palabra
 categoria_gramatical(Palabra, Categoria) :-
     adjetivo(_, _, _, Palabra), Categoria = adjetivo;
-    adverbio(_,Palabra), Categoria = adverbio;
+    adverbio(_, Palabra), Categoria = adverbio;
     articulo(_, _, _, Palabra), Categoria = articulo;
     conjuncion(Palabra, _), Categoria = conjuncion;
     sustantivo(Palabra, _, _, _), Categoria = sustantivo;
     verbo(_, _, _, _, _, Palabra), Categoria = verbo;
-    preposicion(_,Palabra), Categoria = preposicion;
+    preposicion(_, Palabra), Categoria = preposicion;
     pronombre(Palabra, _, _, _), Categoria = pronombre;
     Categoria = desconocido.
 
@@ -36,7 +36,7 @@ verificar_concordancia_sustantivo_adjetivo(Sustantivo, Adjetivo) :-
 % Predicado que verifica la concordancia entre sujeto y verbo
 verificar_concordancia_sujeto_verbo(Sujeto, Verbo) :-
     sustantivo(Sujeto, _, _, _),
-    verbo(Verbo, PersonaV, NumeroV, _, _, _),
+    verbo(_, _, _, PersonaV, NumeroV, Verbo),
     persona_verbo(Sujeto, PersonaV),
     numero_verbo(Sujeto, NumeroV).
 
@@ -52,8 +52,8 @@ verificar_estructura_sintactica(Oracion, EstructuraValida) :-
 verificar_tiempos_verbales_y_preposiciones(Oracion) :-
     split_string(Oracion, " ", " \t\n", Palabras),
     member(Verbo, Palabras),
-    verbo(Verbo, Persona, _, _, _, _),
-    preposicion(Verbo).
+    verbo(_, _, _, _, _, Verbo),
+    preposicion(_, Verbo).
 
 % Predicado que verifica errores comunes en las palabras
 verificar_errores_comunes(Palabras) :-
@@ -73,7 +73,7 @@ oracion_valida(Oracion) :-
     !. % Cortamos el procesamiento si todo es válido.
 
 % Predicado para validar concordancias gramaticales generales
-validar_concordancia([Sujeto, Verbo, Objeto|_]) :-
+validar_concordancia([sustantivo(Sujeto, _, _, _), verbo(_, _, _, _, _, Verbo), complemento(Objeto, _, _)|_]) :-
     verificar_concordancia_sujeto_verbo(Sujeto, Verbo),
     verificar_concordancia_sustantivo_adjetivo(Sujeto, Adjetivo),
     !.
@@ -84,101 +84,3 @@ oracion(Oracion) :-
     format('La oración es válida: ~w~n', [Oracion]).
 oracion(Oracion) :-
     format('Errores detectados en la oración: ~w~n', [Oracion]).
-
-
-% Raíces de los verbos regulares
-raiz(Verbo, Raiz) :-
-    sub_atom(Verbo, 0, _, 2, Raiz).  % Obtiene la raíz eliminando las últimas dos letras (-ar, -er, -ir).
-
-% Conjugación para verbos terminados en -ar
-conjugar(Verbo, yo, Conjugado) :-
-    sub_atom(Verbo, _, 2, 0, ar),
-    raiz(Verbo, Raiz),
-    atom_concat(Raiz, 'o', Conjugado).
-
-conjugar(Verbo, tu, Conjugado) :-
-    sub_atom(Verbo, _, 2, 0, ar),
-    raiz(Verbo, Raiz),
-    atom_concat(Raiz, 'as', Conjugado).
-
-conjugar(Verbo, el, Conjugado) :-
-    sub_atom(Verbo, _, 2, 0, ar),
-    raiz(Verbo, Raiz),
-    atom_concat(Raiz, 'a', Conjugado).
-
-conjugar(Verbo, nosotros, Conjugado) :-
-    sub_atom(Verbo, _, 2, 0, ar),
-    raiz(Verbo, Raiz),
-    atom_concat(Raiz, 'amos', Conjugado).
-
-conjugar(Verbo, ustedes, Conjugado) :-
-    sub_atom(Verbo, _, 2, 0, ar),
-    raiz(Verbo, Raiz),
-    atom_concat(Raiz, 'an', Conjugado).
-
-conjugar(Verbo, ellos, Conjugado) :-
-    sub_atom(Verbo, _, 2, 0, ar),
-    raiz(Verbo, Raiz),
-    atom_concat(Raiz, 'an', Conjugado).
-
-% Conjugación para verbos terminados en -er
-conjugar(Verbo, yo, Conjugado) :-
-    sub_atom(Verbo, _, 2, 0, er),
-    raiz(Verbo, Raiz),
-    atom_concat(Raiz, 'o', Conjugado).
-
-conjugar(Verbo, tu, Conjugado) :-
-    sub_atom(Verbo, _, 2, 0, er),
-    raiz(Verbo, Raiz),
-    atom_concat(Raiz, 'es', Conjugado).
-
-conjugar(Verbo, el, Conjugado) :-
-    sub_atom(Verbo, _, 2, 0, er),
-    raiz(Verbo, Raiz),
-    atom_concat(Raiz, 'e', Conjugado).
-
-conjugar(Verbo, nosotros, Conjugado) :-
-    sub_atom(Verbo, _, 2, 0, er),
-    raiz(Verbo, Raiz),
-    atom_concat(Raiz, 'emos', Conjugado).
-
-conjugar(Verbo, ustedes, Conjugado) :-
-    sub_atom(Verbo, _, 2, 0, er),
-    raiz(Verbo, Raiz),
-    atom_concat(Raiz, 'en', Conjugado).
-
-conjugar(Verbo, ellos, Conjugado) :-
-    sub_atom(Verbo, _, 2, 0, er),
-    raiz(Verbo, Raiz),
-    atom_concat(Raiz, 'en', Conjugado).
-
-% Conjugación para verbos terminados en -ir
-conjugar(Verbo, yo, Conjugado) :-
-    sub_atom(Verbo, _, 2, 0, ir),
-    raiz(Verbo, Raiz),
-    atom_concat(Raiz, 'o', Conjugado).
-
-conjugar(Verbo, tu, Conjugado) :-
-    sub_atom(Verbo, _, 2, 0, ir),
-    raiz(Verbo, Raiz),
-    atom_concat(Raiz, 'es', Conjugado).
-
-conjugar(Verbo, el, Conjugado) :-
-    sub_atom(Verbo, _, 2, 0, ir),
-    raiz(Verbo, Raiz),
-    atom_concat(Raiz, 'e', Conjugado).
-
-conjugar(Verbo, nosotros, Conjugado) :-
-    sub_atom(Verbo, _, 2, 0, ir),
-    raiz(Verbo, Raiz),
-    atom_concat(Raiz, 'imos', Conjugado).
-
-conjugar(Verbo, ustedes, Conjugado) :-
-    sub_atom(Verbo, _, 2, 0, ir),
-    raiz(Verbo, Raiz),
-    atom_concat(Raiz, 'en', Conjugado).
-
-conjugar(Verbo, ellos, Conjugado) :-
-    sub_atom(Verbo, _, 2, 0, ir),
-    raiz(Verbo, Raiz),
-    atom_concat(Raiz, 'en', Conjugado).
