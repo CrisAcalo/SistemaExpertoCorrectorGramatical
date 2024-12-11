@@ -1,0 +1,2 @@
+preposicion(de).
+preposicion(a).
