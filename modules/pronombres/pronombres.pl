@@ -132,3 +132,133 @@ pronombre("ninguno", indefinido, masculino, singular).
 pronombre("ninguna", indefinido, femenino, singular).
 pronombre("ningunos", indefinido, masculino, plural).
 pronombre("ningunas", indefinido, femenino, plural).
+
+% Pronombres personales con mayúscula
+pronombre("Yo", personal, primera, singular).
+pronombre("Tú", personal, segunda, singular).
+pronombre("Él", personal, tercera, singular).
+pronombre("Ella", personal, tercera, singular).
+pronombre("Usted", personal, segunda, singular).
+pronombre("Nosotros", personal, primera, plural).
+pronombre("Nosotras", personal, primera, plural).
+pronombre("Vosotros", personal, segunda, plural).
+pronombre("Vosotras", personal, segunda, plural).
+pronombre("Ellos", personal, tercera, plural).
+pronombre("Ellas", personal, tercera, plural).
+pronombre("Ustedes", personal, segunda, plural).
+
+% Pronombres posesivos con mayúscula
+pronombre("Mío", posesivo, primera, singular).
+pronombre("Mía", posesivo, primera, singular).
+pronombre("Míos", posesivo, primera, plural).
+pronombre("Mías", posesivo, primera, plural).
+pronombre("Tuyo", posesivo, segunda, singular).
+pronombre("Tuya", posesivo, segunda, singular).
+pronombre("Tuyos", posesivo, segunda, plural).
+pronombre("Tuyas", posesivo, segunda, plural).
+pronombre("Suyo", posesivo, tercera, singular).
+pronombre("Suya", posesivo, tercera, singular).
+pronombre("Suyos", posesivo, tercera, plural).
+pronombre("Suyas", posesivo, tercera, plural).
+pronombre("Nuestro", posesivo, primera, singular).
+pronombre("Nuestra", posesivo, primera, singular).
+pronombre("Nuestros", posesivo, primera, plural).
+pronombre("Nuestras", posesivo, primera, plural).
+pronombre("Vuestro", posesivo, segunda, singular).
+pronombre("Vuestra", posesivo, segunda, singular).
+pronombre("Vuestros", posesivo, segunda, plural).
+pronombre("Vuestras", posesivo, segunda, plural).
+
+% Pronombres demostrativos con mayúscula
+pronombre("Este", demostrativo, _, singular).
+pronombre("Esta", demostrativo, _, singular).
+pronombre("Estos", demostrativo, _, plural).
+pronombre("Estas", demostrativo, _, plural).
+pronombre("Ese", demostrativo, _, singular).
+pronombre("Esa", demostrativo, _, singular).
+pronombre("Esos", demostrativo, _, plural).
+pronombre("Esas", demostrativo, _, plural).
+pronombre("Aquel", demostrativo, _, singular).
+pronombre("Aquella", demostrativo, _, singular).
+pronombre("Aquellos", demostrativo, _, plural).
+pronombre("Aquellas", demostrativo, _, plural).
+
+% Pronombres relativos con mayúscula
+pronombre("Que", relativo, _, _).
+pronombre("Cual", relativo, _, singular).
+pronombre("Cuales", relativo, _, plural).
+pronombre("Quien", relativo, _, singular).
+pronombre("Quienes", relativo, _, plural).
+pronombre("Cuyo", relativo, _, singular).
+pronombre("Cuya", relativo, _, singular).
+pronombre("Cuyos", relativo, _, plural).
+pronombre("Cuyas", relativo, _, plural).
+pronombre("Donde", relativo, _, _).
+pronombre("Cuando", relativo, _, _).
+pronombre("Como", relativo, _, _).
+pronombre("Cuanto", relativo, _, _).
+
+% Pronombres interrogativos con mayúscula
+pronombre("Qué", interrogativo, _, _).
+pronombre("Quién", interrogativo, _, singular).
+pronombre("Quiénes", interrogativo, _, plural).
+pronombre("Cuál", interrogativo, _, singular).
+pronombre("Cuáles", interrogativo, _, plural).
+pronombre("Cuánto", interrogativo, masculino, singular).
+pronombre("Cuánta", interrogativo, femenino, singular).
+pronombre("Cuántos", interrogativo, masculino, plural).
+pronombre("Cuántas", interrogativo, femenino, plural).
+pronombre("Dónde", interrogativo, _, _).
+pronombre("Cuándo", interrogativo, _, _).
+pronombre("Cómo", interrogativo, _, _).
+pronombre("Por qué", interrogativo, _, _).
+pronombre("Para qué", interrogativo, _, _).
+
+% Pronombres exclamativos con mayúscula
+pronombre("Qué", exclamativo, _, _).
+pronombre("Cuánto", exclamativo, masculino, singular).
+pronombre("Cuánta", exclamativo, femenino, singular).
+pronombre("Cuántos", exclamativo, masculino, plural).
+pronombre("Cuántas", exclamativo, femenino, plural).
+pronombre("Dónde", exclamativo, _, _).
+pronombre("Cuándo", exclamativo, _, _).
+pronombre("Cómo", exclamativo, _, _).
+pronombre("Qué tal", exclamativo, _, _).
+
+% Pronombres indefinidos con mayúscula
+pronombre("Algo", indefinido, _, _).
+pronombre("Alguien", indefinido, _, _).
+pronombre("Nadie", indefinido, _, _).
+pronombre("Nada", indefinido, _, _).
+pronombre("Todo", indefinido, _, _).
+pronombre("Todos", indefinido, masculino, plural).
+pronombre("Todas", indefinido, femenino, plural).
+pronombre("Otro", indefinido, masculino, singular).
+pronombre("Otra", indefinido, femenino, singular).
+pronombre("Otros", indefinido, masculino, plural).
+pronombre("Otras", indefinido, femenino, plural).
+pronombre("Cualquiera", indefinido, _, singular).
+pronombre("Cualesquiera", indefinido, _, plural).
+pronombre("Varios", indefinido, masculino, plural).
+pronombre("Vari@s", indefinido, _, _).
+pronombre("Poco", indefinido, masculino, singular).
+pronombre("Poca", indefinido, femenino, singular).
+pronombre("Pocos", indefinido, masculino, plural).
+pronombre("Pocas", indefinido, femenino, plural).
+pronombre("Mucho", indefinido, masculino, singular).
+pronombre("Mucha", indefinido, femenino, singular).
+pronombre("Muchos", indefinido, masculino, plural).
+pronombre("Muchas", indefinido, femenino, plural).
+pronombre("Demasiado", indefinido, masculino, singular).
+pronombre("Demasiada", indefinido, femenino, singular).
+pronombre("Demasiados", indefinido, masculino, plural).
+pronombre("Demasiadas", indefinido, femenino, plural).
+pronombre("Cualquier", indefinido, _, singular).
+pronombre("Mismo", indefinido, masculino, singular).
+pronombre("Misma", indefinido, femenino, singular).
+pronombre("Mismos", indefinido, masculino, plural).
+pronombre("Mismas", indefinido, femenino, plural).
+pronombre("Ninguno", indefinido, masculino, singular).
+pronombre("Ninguna", indefinido, femenino, singular).
+pronombre("Ningunos", indefinido, masculino, plural).
+pronombre("Ningunas", indefinido, femenino, plural).
