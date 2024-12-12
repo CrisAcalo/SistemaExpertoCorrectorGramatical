@@ -182,31 +182,7 @@ identificar_tipo_oracion(Categorias, Tipo) :-
             Tipo = compuesta)
     ;
         Tipo = fragmento
-    ).
-
-obtener_ejemplos_por_tipo(simple, [
-    "El gato duerme.",
-    "María canta.",
-    "Los niños juegan."
-]).
-obtener_ejemplos_por_tipo(compuesta, [
-    "Juan come y Pedro bebe.",
-    "María estudia mientras Juan trabaja.",
-    "Si llueve, me quedaré en casa."
-]).
-obtener_ejemplos_por_tipo(fragmento, [
-    "El gato negro",
-    "Una bonita casa",
-    "Muy rápido"
-]).
-
-mostrar_ejemplos([], _).
-mostrar_ejemplos([Ejemplo|Resto], Editor) :-
-    send(Editor, append, Ejemplo),
-    send(Editor, append, '\n'),
-    mostrar_ejemplos(Resto, Editor).
-
-    
+    ).   
 
 % Verificación de errores específicos
 error_concordancia(Categorias) :-
