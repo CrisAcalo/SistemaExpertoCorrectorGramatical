@@ -3,7 +3,7 @@
 :- encoding(utf8).
 
 inicio:-
-    oracion('ella habla').
+    oracion('ella nada en la piscina').
 
 inicio_gui :-
     new(Dialog, dialog('Corrector Gramatical')),
@@ -26,12 +26,17 @@ inicio_gui :-
     send(Dialog, open).
 
 verificar_oracion(Dialog, Texto, Result) :-
-    (oracion_valida(Texto) ->
+    (   oracion_valida(Texto),
+        format(atom(Mensaje), 'La oración es correcta.~n', [])
+    ;   \+ oracion_valida(Texto),
+        with_output_to(atom(Mensaje), oracion(Texto)) % Captura el mensaje generado por oracion/1
+    ),
+    (   Mensaje \= '' ->
         send(Result, colour, green),
-        send(Result, selection, 'La oración es correcta.')
-    ;
-        send(Result, colour, red),
-        send(Result, selection, 'La oración contiene errores gramaticales.')
+        send(Result, selection, Mensaje)
+    ;   send(Result, colour, red),
+        send(Result, selection, 'Error desconocido.')
     ).
+    
 
 :- inicio_gui.

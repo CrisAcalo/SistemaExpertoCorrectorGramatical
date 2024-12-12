@@ -76,7 +76,7 @@ oracion(Oracion) :-
     categorizar_palabras(Tokens, Categorias),
     (   oracion_valida(Oracion)
     ->  write('La oración es gramaticalmente correcta.'), nl
-    ;   write('La oración no tiene errores:'), nl,
+    ;   write('La oración tiene errores:'), nl,
         sugerir_correcciones(Tokens, Categorias)
     ).
 
